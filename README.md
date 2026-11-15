@@ -14,7 +14,7 @@ It started as the console for a small hosted model, so the example upstream is a
 | `/v1/*` proxy: key required, optional model allowlist, no streaming, 64 KB body cap, 30 requests a minute per key | `/v1/*` |
 | Usage per key (requests, input and output tokens, when the upstream reports `usage`) | `/api/usage` |
 | A console page: sign in, keys, usage, docs, in the Flisk roadmap look | `public/index.html` |
-| 18 tests: sign-in, forged cookies, key lifecycle, ownership, metering, rate limit, allowlist, body cap | `tests/portal.test.ts` |
+| Tests covering sign-in, forged cookies, key lifecycle, ownership, metering, rate limit, allowlist, and body cap | `tests/portal.test.ts` |
 | CI (typecheck and tests), a production Dockerfile and a Render blueprint | `.github/workflows/ci.yml`, `Dockerfile`, `render.yaml` |
 
 ## Run it locally
