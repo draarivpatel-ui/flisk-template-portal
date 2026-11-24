@@ -178,7 +178,7 @@ export function createPortal(opts: PortalOptions) {
         if (opts.allowedModels?.length && !opts.allowedModels.includes(String(parsed.model))) return json(400, { error: { message: `model must be one of: ${opts.allowedModels.join(", ")}` } });
         body = JSON.stringify(parsed);
       }
-      const up = await doFetch(`${opts.upstreamUrl}${path}`, { method: req.method, headers: { "content-type": "application/json" }, body, signal: AbortSignal.timeout(120_000) });
+      const up = await doFetch(`${opts.upstreamUrl}${path}${url.search}`, { method: req.method, headers: { "content-type": "application/json" }, body, signal: AbortSignal.timeout(120_000) });
       const text = await up.text();
       let usage: { prompt_tokens?: number; completion_tokens?: number } | undefined;
       try { usage = (JSON.parse(text) as { usage?: typeof usage }).usage; } catch { /* not JSON: count the request only */ }
