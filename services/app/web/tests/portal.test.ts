@@ -176,6 +176,14 @@ describe("/v1 proxy", () => {
     const { key } = await newKey(p, await login(p));
     expect((await p.fetch(chat(key, { model: "m", pad: "x".repeat(500) }))).status).toBe(413);
   });
+  it("preserves pagination and repeated query parameters when proxying", async () => {
+    const p = make();
+    const { key } = await newKey(p, await login(p));
+    const path = "/v1/models?limit=2&cursor=a%2Bb&tag=alpha&tag=beta";
+    const response = await p.fetch(req(path, { headers: { authorization: `Bearer ${key}` } }));
+    expect(response.status).toBe(200);
+    expect(upstreamCalls[0].url).toBe(`http://upstream.test${path}`);
+  });
   it("does not meter a failed upstream call", async () => {
     const p = make({ fetchImpl: (async () => new Response('{"error":"down"}', { status: 502 })) as unknown as typeof fetch });
     const cookie = await login(p);
